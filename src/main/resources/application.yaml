@@ -1,0 +1,15 @@
+# 应用服务 WEB 访问端口
+mybatis:
+  configuration:
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/reggie?serviceTimeZone=UTC
+      username: root
+      password: 123456
+
