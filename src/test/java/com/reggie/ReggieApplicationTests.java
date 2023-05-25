@@ -1,35 +1,40 @@
 package com.reggie;
 
+import cn.hutool.core.util.IdUtil;
+import com.reggie.dao.CategoryMapper;
 import com.reggie.dao.EmployeeMapper;
-import com.reggie.pojo.Employee;
+import com.reggie.pojo.Category;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 @SpringBootTest
 class ReggieApplicationTests {
     @Autowired
     private EmployeeMapper employeeMapper;
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
     @Test
-    void contextLoads() throws SQLException {
-        //System.out.println(employeeMapper.selectEmployeeById(1));
+    void empTest() throws SQLException {
+        //System.out.println(employeeMapper.selectEmployeeById(2));
         //System.out.println(employeeMapper.selectEmployees("管",0,2));
-        Employee employee = new Employee();
-        employee.setName("test");
-        employee.setUsername("testt");
-        employee.setPassword("123");
-        employee.setPhone("123123");
-        employee.setSex("1");
-        employee.setIdNumber("321312");
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setCreateUser(1L);
-        employee.setUpdateUser(1L);
-        employeeMapper.insertEmployee(employee);
+        System.out.println(IdUtil.getSnowflakeNextId());
+    }
+
+    @Test
+    void cateTest(){
+        Category category = new Category();
+        category.setId(IdUtil.getSnowflakeNextId());
+        category.setName("123");
+        category.setType(1);
+        category.setSort(99);
+        category.setCreateUser(2L);
+        category.setUpdateUser(2L);
+        categoryMapper.insertCategory(category);
     }
 
 }

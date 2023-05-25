@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.reggie.dao.SetMealMapper">
+
+    <select id="selectAllSetMeal" resultType="com.reggie.pojo.SetMeal">
+        select * from setmeal
+    </select>
+    <select id="selectSetMealById" resultType="com.reggie.pojo.Dish">
+        select * from setmeal where id=#{id}
+    </select>
+    <select id="selectSetMealByCategory" resultType="com.reggie.pojo.Dish">
+        select * from setmeal where category_id=#{id}
+    </select>
+</mapper>

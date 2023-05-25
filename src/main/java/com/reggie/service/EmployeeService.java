@@ -13,7 +13,7 @@ public class EmployeeService {
     @Autowired
     private EmployeeMapper employeeMapper;
 
-    public Employee findEmployeeById(int id){
+    public Employee findEmployeeById(Long id){
         return employeeMapper.selectEmployeeById(id);
     }
 
@@ -31,5 +31,9 @@ public class EmployeeService {
 
     public void insertEmployee(Employee employee){
         employeeMapper.insertEmployee(employee);
+    }
+
+    public void updateEmployee(Employee employee){
+        employeeMapper.updateEmployeeById(employee);
     }
 }

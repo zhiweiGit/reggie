@@ -4,11 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--填写要引用的包名+类名-->
 <mapper namespace="com.reggie.dao.EmployeeMapper">
-    <sql id="insert">name,username,password,phone,sex,id_number,create_time,update_time,create_user,update_user</sql>
+    <sql id="insert">id,name,username,password,phone,sex,id_number,create_time,update_time,create_user,update_user</sql>
     <insert id="insertEmployee">
         insert employee(<include refid="insert"/>) values
-        (#{name},#{username},#{password},#{phone},#{sex},#{idNumber},#{createTime},#{updateTime},#{createUser},#{updateUser})
+        (#{id},#{name},#{username},#{password},#{phone},#{sex},#{idNumber},now(),now(),#{createUser},#{updateUser})
     </insert>
+    <update id="updateEmployeeById">
+        update employee set
+        <if test="username!=null and name!=null and idNumber!=null and phone!=null and sex!=null">
+        username=#{username},name=#{name},id_number=#{idNumber}
+        ,phone=#{phone},sex=#{sex},update_time=now(),update_user=#{updateUser}
+        </if>
+        <if test="status!=null">
+            status=#{status}
+        </if>
+        where id=#{id}
+    </update>
 
     <select id="selectEmployeeById" resultType="com.reggie.pojo.Employee">
         select * from employee where id=#{id}

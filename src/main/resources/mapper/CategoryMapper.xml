@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.reggie.dao.CategoryMapper">
+    <insert id="insertCategory">
+        insert into category value(#{id},#{type},#{name},#{sort},now(),now(),#{createUser},#{createUser})
+    </insert>
+    <update id="updateCategory">
+        update category set name=#{name},sort=#{sort},update_time=now(),update_user=#{updateUser} where id=#{id}
+    </update>
+
+    <delete id="deleteCategory">
+        delete from category where id=#{id}
+    </delete>
+
+    <select id="selectAllCategory" resultType="com.reggie.pojo.Category">
+        select * from category order by sort limit #{offset},#{limit}
+    </select>
+    <select id="selectCategoryCount" resultType="java.lang.Integer">
+        select count(id) from category
+    </select>
+</mapper>

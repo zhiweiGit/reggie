@@ -27,4 +27,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/front/**")
                 .addResourceLocations("classpath:front/");
     }
+
+
 }

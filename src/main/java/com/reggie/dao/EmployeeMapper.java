@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface EmployeeMapper {
 
-    Employee selectEmployeeById(int id);
+    Employee selectEmployeeById(Long id);
 
     Employee selectEmployeeByUsername(String username);
 
@@ -19,5 +19,7 @@ public interface EmployeeMapper {
             ,@Param("limit") Integer limit);
 
     int insertEmployee(Employee employee);
+
+    int updateEmployeeById(Employee employee);
 
 }
