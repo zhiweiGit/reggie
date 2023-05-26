@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.reggie.dao.DishFlavorMapper">
+
+    <insert id="insertDishFlavor">
+        insert into dish_flavor values
+        (#{id},#{dishId},#{name},#{value},now(),now(),#{createUser},#{updateUser},default)
+    </insert>
+    <update id="updateFlavor">
+        update dish_flavor set
+        name=#{name},value=#{value},update_time=now(),update_user=#{updateUser}
+    </update>
+    <delete id="deleteFlavorById">
+        delete from dish_flavor where id=#{id}
+    </delete>
+    <delete id="deleteFlavorByDishId">
+        delete from dish_flavor where dish_id=#{id}
+    </delete>
+    <select id="selectFlavorByDish" resultType="com.reggie.pojo.DishFlavor">
+        select * from dish_flavor where dish_id =#{dishId}
+    </select>
+    <select id="selectFlavorById" resultType="com.reggie.pojo.DishFlavor">
+        select * from dish_flavor where id=#{id}
+    </select>
+</mapper>

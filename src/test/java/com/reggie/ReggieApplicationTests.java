@@ -37,4 +37,10 @@ class ReggieApplicationTests {
         categoryMapper.insertCategory(category);
     }
 
+    @Test
+    void test(){
+        String name="123jpg";
+        System.out.println(name.substring(name.lastIndexOf(".")));
+    }
+
 }

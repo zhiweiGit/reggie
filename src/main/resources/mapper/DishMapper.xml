@@ -4,6 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--填写要引用的包名+类名-->
 <mapper namespace="com.reggie.dao.DishMapper">
+    <insert id="insertDish">
+        insert into dish values(#{id},#{name},#{categoryId},
+        #{price},null,#{image},#{description},#{status},default,now(),now(),#{createUser},#{updateUser},default)
+    </insert>
+    <update id="updateDish">
+        update dish set
+        name=#{name},category_id=#{categoryId},price=#{price},image=#{image},
+        description=#{description},update_time=now(),update_user=#{updateUser}
+        where id=#{id}
+    </update>
+    <update id="updateStatus">
+        update dish
+        set status=#{status}
+        where id=#{id}
+    </update>
+    <delete id="deleteDish">
+        delete from dish where id=#{id}
+    </delete>
 
     <select id="selectAllDish" resultType="com.reggie.pojo.Dish">
         select * from dish;
@@ -13,6 +31,20 @@
     </select>
     <select id="selectDishByCategory" resultType="com.reggie.pojo.Dish">
         select * from dish where category_id=#{id}
+    </select>
+    <select id="selectDishCount" resultType="java.lang.Integer">
+        select count(*) from dish
+        <if test="name!=null">
+            where name like "%"#{name}"%"
+        </if>
+    </select>
+    <select id="selectDishByNameAndLimit" resultType="com.reggie.pojo.Dish">
+        select * from dish
+        <if test="name!=null">
+            where name like "%"#{name}"%"
+        </if>
+        order by update_time desc
+        limit #{offset},#{limit}
     </select>
 
 </mapper>

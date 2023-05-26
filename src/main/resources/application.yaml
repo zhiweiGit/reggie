@@ -13,3 +13,5 @@ spring:
       username: root
       password: 123456
 
+reggie:
+  path: C:\Users\lzw\Desktop\Java\reggie\src\main\resources\upload\

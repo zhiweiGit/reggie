@@ -15,10 +15,16 @@
         delete from category where id=#{id}
     </delete>
 
-    <select id="selectAllCategory" resultType="com.reggie.pojo.Category">
+    <select id="selectAllCategoryAndLimit" resultType="com.reggie.pojo.Category">
         select * from category order by sort limit #{offset},#{limit}
     </select>
     <select id="selectCategoryCount" resultType="java.lang.Integer">
         select count(id) from category
+    </select>
+    <select id="selectCategoryByType" resultType="com.reggie.pojo.Category">
+        select * from category where type =#{type} order by sort ASC,update_time DESC
+    </select>
+    <select id="selectCategoryById" resultType="com.reggie.pojo.Category">
+        select * from category where id=#{id}
     </select>
 </mapper>

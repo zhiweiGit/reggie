@@ -23,9 +23,15 @@ public class CategoryService {
         return categoryMapper.selectCategoryCount();
     }
 
-    public List<Category> findAllCategory(Integer page, Integer pageSize){
-        return categoryMapper.selectAllCategory((page-1)*pageSize,pageSize);
+    public List<Category> findAllCategoryAndLimit(Integer page, Integer pageSize){
+        return categoryMapper.selectAllCategoryAndLimit((page-1)*pageSize,pageSize);
     }
+
+    public List<Category> findAllCategory(String type){
+        return categoryMapper.selectCategoryByType(type);
+    }
+
+    public Category findCategoryById(Long id){return categoryMapper.selectCategoryById(id);}
 
     public void insertCategory(Category category){
         categoryMapper.insertCategory(category);

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("category")
@@ -19,17 +20,17 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("page")
-    public String page(Integer page, Integer pageSize){
+    public String page(Integer page, Integer pageSize) {
         DataVo vo = new DataVo();
-        vo.setRecords(categoryService.findAllCategory(page,pageSize));
+        vo.setRecords(categoryService.findAllCategoryAndLimit(page, pageSize));
         vo.setTotal(categoryService.findCategoryCount());
         return JSON.toJSONString(R.success(vo));
     }
 
     @PostMapping
-    public String insert(@RequestBody Category category, HttpSession session){
+    public String insert(@RequestBody Category category, HttpSession session) {
         category.setId(IdUtil.getSnowflakeNextId());
-        Long id = (Long)session.getAttribute("employee");
+        Long id = (Long) session.getAttribute("employee");
         if (id == null) {
             return JSON.toJSONString(R.error("用户未登录"));
         }
@@ -40,8 +41,8 @@ public class CategoryController {
     }
 
     @PutMapping
-    public String update(@RequestBody Category category,HttpSession session){
-        Long id = (Long)session.getAttribute("employee");
+    public String update(@RequestBody Category category, HttpSession session) {
+        Long id = (Long) session.getAttribute("employee");
         if (id == null) {
             return JSON.toJSONString(R.error("用户未登录"));
         }
@@ -51,11 +52,17 @@ public class CategoryController {
     }
 
     @DeleteMapping
-    public String delete(Long ids,HttpSession session){
-        if ((Long)session.getAttribute("employee") == null) {
+    public String delete(Long ids, HttpSession session) {
+        if ((Long) session.getAttribute("employee") == null) {
             return JSON.toJSONString(R.error("用户未登录"));
         }
         categoryService.deleteCategory(ids);
         return JSON.toJSONString(R.success("成功"));
+    }
+
+    @GetMapping("list")
+    public String getList(String type) {
+        List<Category> allCategory=categoryService.findAllCategory(type);
+        return JSON.toJSONString(R.success(allCategory));
     }
 }

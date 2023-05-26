@@ -10,7 +10,11 @@ import java.util.List;
 public interface CategoryMapper {
 
     int selectCategoryCount();
-    List<Category> selectAllCategory(@Param("offset") Integer offset,@Param("limit") Integer limit);
+    List<Category> selectAllCategoryAndLimit(@Param("offset") Integer offset,@Param("limit") Integer limit);
+
+    List<Category> selectCategoryByType(String type);
+
+    Category selectCategoryById(Long id);
 
     int insertCategory(Category category);
 
