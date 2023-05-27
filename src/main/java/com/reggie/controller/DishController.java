@@ -6,10 +6,12 @@ import com.reggie.common.R;
 import com.reggie.dto.DishDto;
 import com.reggie.pojo.Category;
 import com.reggie.pojo.Dish;
+import com.reggie.pojo.DishFlavor;
 import com.reggie.service.CategoryService;
 import com.reggie.service.DishFlavorService;
 import com.reggie.service.DishService;
 import com.reggie.vo.DataVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,5 +82,21 @@ public class DishController {
     public String deleteDish(String ids){
         dishService.deleteDish(ids);
         return JSON.toJSONString(R.success("成功"));
+    }
+
+    @GetMapping("list")
+    public String dishList(Long categoryId){
+        List<Dish> dishes = dishService.findDishByCategory(categoryId);
+        List<DishDto> dishDtos=new ArrayList<>();
+        for (Dish dish : dishes) {
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(dish,dishDto);
+            List<DishFlavor> flavorByDish = dishFlavorService.findFlavorByDish(dishDto.getId());
+            dishDto.setFlavors(flavorByDish);
+            dishDtos.add(dishDto);
+
+        }
+
+        return  JSON.toJSONString(R.success(dishDtos));
     }
 }

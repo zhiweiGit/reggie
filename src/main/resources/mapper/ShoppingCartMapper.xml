@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.reggie.dao.ShoppingCartMapper">
+    <insert id="insertShoppingCart">
+        insert into shopping_cart values(
+        #{id},#{name},#{image},#{userId},
+        <if test="dishId!=null">
+            #{dishId},null,#{dishFlavor},default,
+        </if>
+        <if test="setmealId!=null">
+            null,#{setmealId},null,default,
+        </if>
+        #{amount},now()
+        )
+    </insert>
+    <update id="addNumber">
+        update shopping_cart set number=number+1
+        where user_id=#{userId} and
+        <if test="dishId!=null">
+            dish_id=#{dishId}
+        </if>
+        <if test="setmealId!=null">
+            setmeal_id=#{setmealId}
+        </if>
+    </update>
+    <update id="subCart">
+        update shopping_cart set number=number-1
+        where user_id=#{userId} and
+        <if test="dishId!=null">
+            dish_id=#{dishId}
+        </if>
+        <if test="setmealId!=null">
+            setmeal_id=#{setmealId}
+        </if>
+    </update>
+    <delete id="deleteCartByUid">
+        delete from shopping_cart where user_id=#{userId}
+    </delete>
+    <delete id="deleteCartById">
+        delete from shopping_cart where id=#{id}
+    </delete>
+
+    <select id="selectShoppingCartByUserId" resultType="com.reggie.pojo.ShoppingCart">
+        select * from shopping_cart where user_id=#{userId} order by create_time DESC
+    </select>
+    <select id="selectShoppingCartById" resultType="com.reggie.pojo.ShoppingCart">
+        select * from shopping_cart where id=#{id}
+    </select>
+    <select id="selectCartByCondition" resultType="com.reggie.pojo.ShoppingCart">
+        select * from shopping_cart
+        where user_id=#{userId} and
+        <if test="dishId!=null">
+            dish_id=#{dishId}
+        </if>
+        <if test="setmealId!=null">
+            setmeal_id=#{setmealId}
+        </if>
+    </select>
+</mapper>

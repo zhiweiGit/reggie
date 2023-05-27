@@ -295,8 +295,11 @@
           methods:{
             //初始化数据
             initData(){
+
               Promise.all([categoryListApi(),cartListApi({})]).then(res=>{
                 //获取分类数据
+                console.log(res)
+                console.log("====")
                 if(res[0].code === 1){
                   this.categoryList = res[0].data
                   if(Array.isArray(res[0].data) && res[0].data.length > 0){

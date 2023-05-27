@@ -4,14 +4,42 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--填写要引用的包名+类名-->
 <mapper namespace="com.reggie.dao.SetMealMapper">
+    <insert id="insertSeatMeal">
+        insert into setmeal values(
+        #{id},#{categoryId},#{name},#{price},#{status},null,#{description},#{image},now(),now(),#{createUser},#{updateUser},default
+        )
+    </insert>
+    <update id="updateStatus">
+        update setmeal set status=#{status} where id=#{id}
+    </update>
+
+    <update id="updateSetMeal">
+        update setmeal set category_id=#{categoryId},name=#{name},price=#{price},status=#{status},code=#{code},
+        description=#{description},image=#{image},update_time=now(),update_user=#{updateUser}
+    </update>
+
+    <delete id="deleteSeatMeal">
+        delete from setmeal where id=#{id}
+    </delete>
 
     <select id="selectAllSetMeal" resultType="com.reggie.pojo.SetMeal">
         select * from setmeal
     </select>
-    <select id="selectSetMealById" resultType="com.reggie.pojo.Dish">
+    <select id="selectSetMealById" resultType="com.reggie.pojo.SetMeal">
         select * from setmeal where id=#{id}
     </select>
-    <select id="selectSetMealByCategory" resultType="com.reggie.pojo.Dish">
+    <select id="selectSetMealByCategory" resultType="com.reggie.pojo.SetMeal">
         select * from setmeal where category_id=#{id}
+    </select>
+    <select id="selectSeatMealCount" resultType="java.lang.Integer">
+        select count(id) from setmeal
+    </select>
+    <select id="selectSetMealByNameAndLimit" resultType="com.reggie.pojo.SetMeal">
+        select * from setmeal
+        <if test="name!=null">
+            where name like "%"#{name}"%"
+        </if>
+        order by update_time desc
+        limit #{offset},#{limit}
     </select>
 </mapper>

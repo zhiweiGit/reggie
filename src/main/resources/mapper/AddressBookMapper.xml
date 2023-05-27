@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+
+<!--id=#{id},user_id=#{userId},consignee=#{consignee},sex=#{sex},phone=#{phone},province_code=#{provinceCode},-->
+<!--province_name=#{provinceName},city_code=#{cityCode},city_name=#{cityName},-->
+<!--district_code=#{districtCode},district_name=#{districtName},detail=#{detail},label=#{label}-->
+<!--,default,now(),now(),create_user=#{createUser},update_user=#{updateUser},default-->
+<mapper namespace="com.reggie.dao.AddressBookMapper">
+
+    <insert id="insertAddressBook">
+        insert into address_book values(
+        #{id},#{userId},#{consignee},#{sex},#{phone},#{provinceCode},
+        #{provinceName},#{cityCode},#{cityName},
+        #{districtCode},#{districtName},#{detail},#{label}
+        ,default,now(),now(),#{createUser},#{updateUser},default
+        )
+    </insert>
+    <update id="updateSetDefault">
+        update address_book set is_default=1,update_time=now() where id=#{id}
+    </update>
+    <update id="updateCancelDefault">
+        update address_book set is_default=0,update_time=now() where user_id=#{userId}
+    </update>
+    <update id="updateAddress">
+        update address_book set
+        consignee=#{consignee},phone=#{phone},detail=#{detail},label=#{label},
+        update_time=now(),update_user=#{updateUser}
+        where id=#{id}
+    </update>
+    <delete id="deleteAddress">
+        delete from address_book where id=#{id}
+    </delete>
+    <select id="selectAddressBookById" resultType="com.reggie.pojo.AddressBook">
+        select * from address_book where id=#{id}
+    </select>
+    <select id="selectAddressBookByUserId" resultType="com.reggie.pojo.AddressBook">
+        select * from address_book where user_id=#{userId}
+    </select>
+    <select id="selectDefaultAddressByUserId" resultType="com.reggie.pojo.AddressBook">
+        select from address_book where user_id=#{userId} and is_default=1
+    </select>
+</mapper>

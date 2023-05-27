@@ -17,7 +17,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginRequiredInterceptor).addPathPatterns("/**")
                 .excludePathPatterns("/backend/page/login/login.html","/employee/logout",
-                        "/employee/login","/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg");
+                        "/employee/login","/front/index.html","/front/page/login.html",
+                        "/user/sendMsg","/user/login",
+                        "/error",
+                        "/**/*.css", "/**/*.js", "/**/*.png",
+                        "/**/*.jpg", "/**/*.jpeg","/**/*.ttf","/**/*.woff*","/**/*.ico",
+                        "/**/*.otf","/**/*.map");
     }
 
     @Override

@@ -15,18 +15,35 @@ public class LoginRequiredInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(request.getSession().getAttribute("employee")==null){
-            String xRequestedWith = request.getHeader("x-requested-with");
-            if ("GET".equals(request.getMethod())) {
-                log.info("重定向url"+request.getServletPath());
+        if ("GET".equals(request.getMethod())) {
+            //判断是否为后端页面
+            if (request.getServletPath().contains("backend") &&
+                    request.getSession().getAttribute("employee") == null) {
+                //String xRequestedWith = request.getHeader("x-requested-with");
+                log.info("后端重定向url:" + request.getServletPath());
                 response.sendRedirect("/backend/page/login/login.html");
                 return false;
+                //前端页面
+            } else if (request.getServletPath().contains("front") &&
+                    request.getSession().getAttribute("user") == null) {
+                log.info("前端重定向url:" + request.getServletPath());
+                response.sendRedirect("/front/page/login.html");
+                return false;
             }
-            response.getOutputStream().write(JSON.toJSONString(R.error("未登录")).getBytes());
-            return false;
+            else if (request.getServletPath().contains("shoppingCart")||
+                    request.getServletPath().contains("category")||
+                    request.getServletPath().contains("dish")
+            ){}
 
+        } else {
+            if (request.getSession().getAttribute("employee") == null &&
+                    request.getSession().getAttribute("user") == null) {
+                log.info("未登录的请求" + request.getServletPath());
+                response.getOutputStream().write(JSON.toJSONString(R.error("未登录")).getBytes());
+                return false;
+            }
         }
-        log.info("未定向"+request.getServletPath());
+        log.info("未定向" + request.getServletPath());
         return true;
     }
 

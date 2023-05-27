@@ -17,7 +17,7 @@ public class CategoryService {
     private DishService dishService;
 
     @Autowired
-    private SetMealService setMealService;
+    private SetmealService setMealService;
 
     public int findCategoryCount(){
         return categoryMapper.selectCategoryCount();

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.reggie.dao.SetmealDishMapper">
+    <insert id="insertSetmealDish">
+        insert into setmeal_dish values(
+        #{id},#{setmealId},#{dishId},#{name},#{price},#{copies},default,now(),now(),#{createUser},#{updateUser},default
+        )
+    </insert>
+
+
+
+    <delete id="deleteSetmealDishBySid">
+        delete from setmeal_dish where setmeal_id=#{sid}
+    </delete>
+
+    <select id="selectSetmealDishById" resultType="com.reggie.pojo.SetmealDish">
+        select * from setmeal_dish where id=#{id}
+    </select>
+    <select id="selectSetmealDishBySid" resultType="com.reggie.pojo.SetmealDish">
+        select * from setmeal_dish where setmeal_id=#{sid}
+    </select>
+</mapper>

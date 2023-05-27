@@ -1,14 +1,17 @@
 package com.reggie;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.http.HttpUtil;
 import com.reggie.dao.CategoryMapper;
 import com.reggie.dao.EmployeeMapper;
 import com.reggie.pojo.Category;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.DigestUtils;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 @SpringBootTest
 class ReggieApplicationTests {
@@ -39,8 +42,14 @@ class ReggieApplicationTests {
 
     @Test
     void test(){
-        String name="123jpg";
-        System.out.println(name.substring(name.lastIndexOf(".")));
+        //System.out.println(RandomUtil.randomNumbers(3));
+        //POST请求
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("username", "admin");
+        paramMap.put("password", DigestUtils.md5DigestAsHex("123456".getBytes()));
+
+        String result1 = HttpUtil.post("http://localhost:8080/employee/login", paramMap);
+        System.out.println(result1);
     }
 
 }
