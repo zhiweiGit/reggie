@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.reggie.dao.OrdersMapper">
+    <insert id="insertOrders">
+        insert into orders values(
+        #{id},#{id},default,#{userId},#{addressBookId},now(),now(),default,
+        #{amount},#{remark},#{userName},#{phone},#{address},#{consignee}
+        )
+    </insert>
+
+    <select id="selectOrdersByUserId" resultType="com.reggie.pojo.Orders">
+        select * from orders where user_id=#{uid}
+    </select>
+    <select id="selectOrdersByUserIdAndLimit" resultType="com.reggie.pojo.Orders">
+        select * from orders where user_id=#{uid} order by order_time desc limit #{offset},#{limit}
+    </select>
+    <select id="selectOrderCountByUid" resultType="java.lang.Integer">
+        select count(id) from orders where user_id=#{uid}
+    </select>
+</mapper>

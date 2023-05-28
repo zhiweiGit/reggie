@@ -40,6 +40,6 @@
         select * from address_book where user_id=#{userId}
     </select>
     <select id="selectDefaultAddressByUserId" resultType="com.reggie.pojo.AddressBook">
-        select from address_book where user_id=#{userId} and is_default=1
+        select * from address_book where user_id=#{userId} and is_default=1
     </select>
 </mapper>

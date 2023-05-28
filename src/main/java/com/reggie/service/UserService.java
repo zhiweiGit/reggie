@@ -11,11 +11,15 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public User findUserByPhone(String phone){
+    public User findUserByPhone(String phone) {
         return userMapper.selectUserByPhone(phone);
     }
 
-    public void insertUser(User user){
+    public void insertUser(User user) {
         userMapper.insertUser(user);
+    }
+
+    public User findUserById(Long id) {
+        return userMapper.selectUserById(id);
     }
 }

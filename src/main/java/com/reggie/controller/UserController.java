@@ -52,4 +52,10 @@ public class UserController {
         }
         return JSON.toJSONString(R.error("验证码错误"));
     }
+
+    @PostMapping("loginout")
+    public String loginout(HttpSession session){
+        session.removeAttribute("user");
+        return JSON.toJSONString(R.success("成功"));
+    }
 }

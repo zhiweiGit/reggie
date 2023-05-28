@@ -11,6 +11,9 @@
     </insert>
 
     <select id="selectUserByPhone" resultType="com.reggie.pojo.User">
-        select * from User where phone=#{phone}
+        select * from user where phone=#{phone}
+    </select>
+    <select id="selectUserById" resultType="com.reggie.pojo.User">
+        select * from user where id=#{id}
     </select>
 </mapper>

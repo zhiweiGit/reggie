@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.reggie.dao.OrderDetailMapper">
+
+
+    <insert id="insertOrderDetail">
+        insert into order_detail values(
+        #{id},#{name},#{image},#{orderId},
+        <choose>
+            <when test="dishId!=null">#{dishId},null,#{dishFlavor},</when>
+            <otherwise>null,#{setmealId},null,</otherwise>
+        </choose>
+        #{number},#{amount}
+        )
+    </insert>
+    <select id="selectOrderDetailByOrderId" resultType="com.reggie.pojo.OrderDetail">
+        select * from order_detail where order_id=#{orderId}
+    </select>
+</mapper>

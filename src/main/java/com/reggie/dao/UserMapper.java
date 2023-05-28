@@ -8,5 +8,7 @@ public interface UserMapper {
 
     User selectUserByPhone(String phone);
 
+    User selectUserById(Long id);
+
     int insertUser(User user);
 }
