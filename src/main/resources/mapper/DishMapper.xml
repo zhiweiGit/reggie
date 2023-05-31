@@ -46,5 +46,8 @@
         order by update_time desc
         limit #{offset},#{limit}
     </select>
+    <select id="selectDishByDish" resultType="com.reggie.pojo.Dish">
+        select * from dish where category_id=#{categoryId} and status=#{status}
+    </select>
 
 </mapper>

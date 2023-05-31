@@ -13,6 +13,9 @@ import com.reggie.service.DishService;
 import com.reggie.vo.DataVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -31,6 +34,9 @@ public class DishController {
 
     @Autowired
     private DishFlavorService dishFlavorService;
+
+    @Autowired
+    private RedisTemplate<String ,Object> redisTemplate;
 
 
     @GetMapping("page")
@@ -78,16 +84,27 @@ public class DishController {
         return JSON.toJSONString(R.success("成功"));
     }
 
+    @CacheEvict(value = "dishCache",allEntries = true)
     @DeleteMapping
     public String deleteDish(String ids){
         dishService.deleteDish(ids);
         return JSON.toJSONString(R.success("成功"));
     }
 
+    @Cacheable(value = "dishCache",key = "#d.categoryId+':'+#d.status")
     @GetMapping("list")
-    public String dishList(Long categoryId){
-        List<Dish> dishes = dishService.findDishByCategory(categoryId);
-        List<DishDto> dishDtos=new ArrayList<>();
+    public String dishList(Dish d){
+        //判断redis中有没有缓存
+        //List dishDtos=null;
+        //String key="dish:"+d.getCategoryId()+":"+d.getStatus();
+        //dishDtos = JSON.parseObject((String) redisTemplate.opsForValue().get(key),List.class);
+        //if(dishDtos!=null){
+        //    return JSON.toJSONString(R.success(dishDtos));
+        //}
+
+        //没有则去数据库中查
+        List<Dish> dishes = dishService.findDishByDish(d);
+        List dishDtos=new ArrayList<>();
         for (Dish dish : dishes) {
             DishDto dishDto = new DishDto();
             BeanUtils.copyProperties(dish,dishDto);
@@ -97,6 +114,7 @@ public class DishController {
 
         }
 
+        //redisTemplate.opsForValue().set(key,JSON.toJSONString(dishDtos),1, TimeUnit.HOURS);
         return  JSON.toJSONString(R.success(dishDtos));
     }
 }

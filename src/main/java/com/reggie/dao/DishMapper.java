@@ -21,6 +21,8 @@ public interface DishMapper {
 
     List<Dish> selectDishByCategory(Long id);
 
+    List<Dish> selectDishByDish(Dish dish);
+
     int insertDish(DishDto dishDto);
 
     int updateDish(Dish dish);

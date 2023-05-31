@@ -10,6 +10,8 @@ import com.reggie.service.SetmealService;
 import com.reggie.vo.DataVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -54,6 +56,7 @@ public class SetmealController {
     }
 
     @DeleteMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public String delete(Long[] ids){
         setmealService.deleteSetmeal(ids);
         return JSON.toJSONString(R.success("成功"));
@@ -81,6 +84,7 @@ public class SetmealController {
     }
 
     @GetMapping("list")
+    @Cacheable(value = "setmealCache",key = "#setmeal.categoryId+':'+#setmeal.status")
     public String getList(SetMeal setmeal){
         List<SetMeal> setmeals = setmealService.findSetMealByCategory(setmeal.getCategoryId());
         return JSON.toJSONString(R.success(setmeals));

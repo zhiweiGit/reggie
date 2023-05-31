@@ -8,5 +8,5 @@ target/
 *.iws
 *.iml
 *.ipr
-/src/main/resources/upload/
-/src/test/
+src/main/resources/upload/
+src/test/

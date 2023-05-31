@@ -8,6 +8,7 @@ import com.reggie.pojo.Dish;
 import com.reggie.pojo.DishFlavor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,9 @@ public class DishService {
 
     @Autowired
     private DishFlavorMapper dishFlavorMapper;
+
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
 
     public List<Dish> findAllDish(){
         return dishMapper.selectAllDish();
@@ -36,6 +40,10 @@ public class DishService {
 
     public List<Dish> findDishByCategory(Long id){
         return dishMapper.selectDishByCategory(id);
+    }
+
+    public List<Dish> findDishByDish(Dish dish){
+        return dishMapper.selectDishByDish(dish);
     }
 
     public List<Dish> findByNameAndLimit(String name,int page,int pageSize){
@@ -58,6 +66,7 @@ public class DishService {
             flavor.setDishId(dishDto.getId());
             dishFlavorMapper.insertDishFlavor(flavor);
         }}
+        redisTemplate.delete("dish:"+dishDto.getCategoryId()+":1");
     }
 
     @Transactional
@@ -66,11 +75,6 @@ public class DishService {
         BeanUtils.copyProperties(dishDto,dish);
         dishMapper.updateDish(dish);
 
-        //删除原数据
-        //List<DishFlavor> oldFlavor = dishFlavorMapper.selectFlavorByDish(dish.getId());
-        //for (DishFlavor f : oldFlavor) {
-        //    dishFlavorMapper.deleteFlavorById(f.getId());
-        //}
         dishFlavorMapper.deleteFlavorByDishId(dish.getId());
 
         //添加新数据
@@ -84,6 +88,8 @@ public class DishService {
                 dishFlavorMapper.insertDishFlavor(f);
             }
         }
+
+        redisTemplate.delete("dish:"+dishDto.getCategoryId()+":1");
     }
 
     public void updateStatus(String i,int status){
